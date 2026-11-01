@@ -16,7 +16,7 @@ import { COLLEGE_STEPS, VIVA_QUESTIONS, VivaQuestion } from '../data/stepsData';
 
 export const CollegeGuide: React.FC = () => {
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
-  const [vivaFilter, setVivaFilter] = useState<'All' | 'ML' | 'Python' | 'Project'>('All');
+  const [vivaFilter, setVivaFilter] = useState<'All' | 'Machine Learning' | 'NLP & Text' | 'Evaluation' | 'System Design'>('All');
   const [openVivaId, setOpenVivaId] = useState<number | null>(1);
   const [searchVivaQuery, setSearchVivaQuery] = useState('');
 
@@ -204,8 +204,8 @@ export const CollegeGuide: React.FC = () => {
           </div>
 
           {/* Filter Pills */}
-          <div className="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
-            {(['All', 'ML', 'Python', 'Project'] as const).map((cat) => (
+          <div className="flex flex-wrap items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+            {(['All', 'Machine Learning', 'NLP & Text', 'Evaluation', 'System Design'] as const).map((cat) => (
               <button
                 key={cat}
                 onClick={() => setVivaFilter(cat)}

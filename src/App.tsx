@@ -7,10 +7,9 @@ import React, { useState } from 'react';
 import { Navbar, ActiveTab } from './components/Navbar';
 import { NewsPredictor } from './components/NewsPredictor';
 import { ModelLab } from './components/ModelLab';
-import { CodeExplorer } from './components/CodeExplorer';
+import { ArchitectureView } from './components/ArchitectureView';
 import { CollegeGuide } from './components/CollegeGuide';
 import { ProjectReportModal } from './components/ProjectReportModal';
-import { ShieldCheck, BookOpen, Code2, GraduationCap, Github } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('detector');
@@ -24,7 +23,7 @@ export default function App() {
       <main className="flex-1">
         {activeTab === 'detector' && <NewsPredictor />}
         {activeTab === 'lab' && <ModelLab />}
-        {activeTab === 'code' && <CodeExplorer />}
+        {activeTab === 'architecture' && <ArchitectureView />}
         {activeTab === 'guide' && <CollegeGuide />}
         {activeTab === 'report' && (
           <ProjectReportModal onBackToDetector={() => setActiveTab('detector')} />
@@ -53,10 +52,10 @@ export default function App() {
               22-Step Guide
             </button>
             <button
-              onClick={() => setActiveTab('code')}
+              onClick={() => setActiveTab('architecture')}
               className="hover:text-white transition-colors cursor-pointer"
             >
-              Python Files (app.py)
+              System Architecture
             </button>
             <button
               onClick={() => setActiveTab('lab')}

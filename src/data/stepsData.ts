@@ -1,205 +1,206 @@
 export interface StepItem {
   stepNumber: number;
   title: string;
-  category: 'Foundation' | 'Environment' | 'Data & ML' | 'Web Development' | 'Testing & Deployment' | 'Academic Report & Viva';
+  category: 'Foundation' | 'System Architecture' | 'Machine Learning' | 'Data Pipeline' | 'Testing & Evaluation' | 'Academic Report & Viva';
   summary: string;
   content: string;
-  codeSnippets?: { title: string; language: string; code: string }[];
   keyTakeaways: string[];
 }
 
 export interface VivaQuestion {
   id: number;
-  category: 'ML' | 'Python' | 'Project' | 'NLP';
+  category: 'Machine Learning' | 'NLP & Text' | 'System Design' | 'Evaluation';
   question: string;
   answer: string;
 }
 
 export const VIVA_QUESTIONS: VivaQuestion[] = [
-  // 15 Machine Learning Questions
+  // Machine Learning Concepts
   {
     id: 1,
-    category: 'ML',
-    question: 'What is the difference between Supervised and Unsupervised Learning?',
-    answer: 'In Supervised Learning, the training dataset consists of input features along with labeled ground-truth targets (e.g., news text paired with "REAL" or "FAKE" labels). In Unsupervised Learning, there are no target labels provided; the algorithm discovers hidden patterns or clusters on its own (e.g., K-Means clustering).'
+    category: 'Machine Learning',
+    question: 'What is Supervised Learning and how does this project use it?',
+    answer: 'Supervised Learning is a category of machine learning where the model is trained using input samples paired with verified ground-truth labels. In our system, the input consists of news texts, and the labels are "REAL" or "FAKE". The algorithm identifies patterns and decision boundaries that separate the two classes.'
   },
   {
     id: 2,
-    category: 'ML',
-    question: 'Why did we use the Passive Aggressive Classifier for text classification?',
-    answer: 'The Passive Aggressive Classifier is an online margin-based algorithm. It remains passive when an incoming text sample is correctly classified within the margin, but becomes aggressive and recalculates weight parameters whenever a classification error occurs. It is computationally fast, memory-efficient, and excels with large, high-dimensional sparse TF-IDF text representations.'
+    category: 'Machine Learning',
+    question: 'How does the Passive Aggressive Classifier work conceptually?',
+    answer: 'The Passive Aggressive Classifier is a margin-based classification algorithm. It remains "Passive" when an incoming text sample is correctly classified within a safe margin, making zero changes to its internal parameters. However, whenever a classification error occurs, it becomes "Aggressive" and updates its weights to correct the mistake. This makes it extremely fast and well-suited for high-dimensional text data.'
   },
   {
     id: 3,
-    category: 'ML',
-    question: 'What is TF-IDF and how does it work mathematically?',
-    answer: 'TF-IDF stands for Term Frequency-Inverse Document Frequency. TF measures how frequently a word appears in a document: TF(t, d) = count(t in d) / total words in d. IDF penalizes common words across all documents: IDF(t) = log((1 + N) / (1 + DF(t))) + 1. The final weight is TF * IDF, giving higher importance to terms that are distinctive to a specific document rather than universally frequent.'
+    category: 'Machine Learning',
+    question: 'What is the decision boundary in linear classification algorithms?',
+    answer: 'A decision boundary is a mathematical hyperplane separating two classes in feature space. In our project, text is converted into multi-dimensional numerical points. The classifier determines which side of the separating boundary an article falls on: one side corresponds to Real news, and the other to Fake news.'
   },
   {
     id: 4,
-    category: 'ML',
-    question: 'What is the purpose of train_test_split and why is stratify=y used?',
-    answer: 'train_test_split partitions the dataset into an 80% training set and a 20% test set to prevent data leakage and evaluate how well the model generalizes to unseen data. Setting stratify=y ensures that the proportion of REAL and FAKE classes remains exactly identical in both training and testing subsets, preventing sample distribution skew.'
+    category: 'Machine Learning',
+    question: 'Why do we split the dataset into 80% training and 20% testing sets?',
+    answer: 'Data splitting prevents model memorization (data leakage). Training on 80% teaches the model general linguistic patterns, while holding out 20% as an unseen test set provides an unbiased, honest measure of how well the system will perform on new, unseen news articles.'
   },
   {
     id: 5,
-    category: 'ML',
-    question: 'What is the Confusion Matrix and what do its four quadrants represent?',
-    answer: 'A Confusion Matrix is a 2x2 performance table comparing actual ground truth against model predictions. For Fake news detection: True Positive (TP): Model correctly flagged Fake as Fake. True Negative (TN): Model correctly identified Real as Real. False Positive (FP / Type I Error): Real news incorrectly flagged as Fake. False Negative (FN / Type II Error): Fake news mistakenly classified as Real.'
+    category: 'Machine Learning',
+    question: 'What is Stratified Splitting and why is it essential?',
+    answer: 'Stratified splitting ensures that the training set and testing set have the exact same percentage distribution of Real and Fake articles as the original dataset. Without stratification, a random split could accidentally put too many fake articles in the test set, skewing evaluation results.'
   },
   {
     id: 6,
-    category: 'ML',
-    question: 'What is the difference between Precision and Recall?',
-    answer: 'Precision = TP / (TP + FP). It answers: "Of all the news articles the model flagged as Fake, how many were actually Fake?" Recall = TP / (TP + FN). It answers: "Of all the actual Fake news articles in the dataset, how many did the model catch?" High precision avoids falsely accusing legitimate journalism, while high recall catches widespread misinformation.'
+    category: 'Machine Learning',
+    question: 'How does Logistic Regression classify news articles?',
+    answer: 'Logistic Regression calculates a weighted sum of all extracted feature indicators and passes that score through an S-shaped Sigmoid function. This converts the linear score into an interpretable probability between 0 and 1. A threshold (typically 0.5) is then applied to classify the article as Real or Fake.'
   },
   {
     id: 7,
-    category: 'ML',
-    question: 'Why is Accuracy alone not always a reliable metric in Machine Learning?',
-    answer: 'If a dataset is imbalanced (e.g., 95% Real and 5% Fake), a naive model that predicts "Real" 100% of the time will achieve 95% accuracy while failing to detect a single piece of fake news. That is why F1-Score (harmonic mean of Precision and Recall) and Confusion Matrices are essential for balanced evaluation.'
+    category: 'Machine Learning',
+    question: 'What is Linear Support Vector Machine (Linear SVM)?',
+    answer: 'Linear SVM is an algorithm that searches for the optimal separating hyperplane that maximizes the geometric distance (margin) between the nearest Real news samples and nearest Fake news samples. Maximizing this margin provides strong generalization performance on high-dimensional text matrices.'
   },
   {
     id: 8,
-    category: 'ML',
-    question: 'What is the role of the random_state parameter in scikit-learn?',
-    answer: 'The random_state parameter seeds the pseudorandom number generator. Setting random_state=42 guarantees deterministic, reproducible results so that training/test splits and stochastic algorithm initializations yield identical outputs across repeated runs.'
+    category: 'Machine Learning',
+    question: 'What is the core assumption in Multinomial Naive Bayes?',
+    answer: 'Naive Bayes applies probability theory under the "naive" assumption that every word in a document appears independently of every other word, given the class. While words in human language are naturally correlated, this probabilistic approach provides a fast, effective baseline for text categorization.'
   },
   {
     id: 9,
-    category: 'ML',
-    question: 'How does Logistic Regression perform classification on text data?',
-    answer: 'Logistic Regression calculates a linear combination of input TF-IDF feature weights (z = w^T * x + b) and passes it through the sigmoid function: σ(z) = 1 / (1 + e^(-z)). This squashes the output into a probability between 0 and 1, applying a threshold (typically 0.5) to decide REAL vs FAKE.'
+    category: 'Machine Learning',
+    question: 'What is Overfitting and how do we prevent it?',
+    answer: 'Overfitting occurs when a machine learning model memorizes trivial noise or coincidental phrases from the training set rather than learning true generalizable rules. We mitigate overfitting by removing common stopwords, setting minimum and maximum document frequency thresholds, and utilizing regularization penalties.'
   },
   {
     id: 10,
-    category: 'ML',
-    question: 'Why does Multinomial Naive Bayes make the "naive" assumption?',
-    answer: 'Multinomial Naive Bayes assumes that the conditional presence of every word is entirely independent of all other words given the document class: P(w1, w2 | Class) = P(w1 | Class) * P(w2 | Class). In reality, words exhibit semantic dependencies, but Naive Bayes still performs remarkably well as a fast, low-parameter text baseline.'
+    category: 'Machine Learning',
+    question: 'Does this machine learning system independently verify real-world facts?',
+    answer: 'No. The system evaluates linguistic style, sensational lexical cues, syntactic structure, and statistical word correlations learned from training data. It flags stylistic markers of misinformation but does not perform live database or web fact-checking.'
   },
+
+  // NLP & Text Concepts
   {
     id: 11,
-    category: 'ML',
-    question: 'What is Overfitting and how do we prevent it in our project?',
-    answer: 'Overfitting occurs when a model memorizes idiosyncrasies and noise in the training data rather than generalizable rules, leading to near-100% train accuracy but poor test accuracy. We prevent it using train-test splitting, L2 regularization in Logistic Regression, max_df and min_df pruning in TF-IDF, and stopword removal.'
+    category: 'NLP & Text',
+    question: 'What is Natural Language Processing (NLP)?',
+    answer: 'Natural Language Processing is the interdisciplinary field of computer science and artificial intelligence focused on enabling computers to understand, interpret, process, and extract meaningful patterns from human language text.'
   },
   {
     id: 12,
-    category: 'ML',
-    question: 'What is an N-Gram and why did we set ngram_range=(1, 2)?',
-    answer: 'An n-gram is a contiguous sequence of n items from a text. A unigram (n=1) is a single word ("lemon"), while a bigram (n=2) is a two-word pair ("lemon water" or "miracle cure"). Setting ngram_range=(1, 2) allows the model to capture vital contextual phrases that convey sensationalism or attribution far better than isolated words alone.'
+    category: 'NLP & Text',
+    question: 'What is TF-IDF and what does it represent?',
+    answer: 'TF-IDF stands for Term Frequency-Inverse Document Frequency. Term Frequency (TF) measures how often a word appears inside a single article. Inverse Document Frequency (IDF) penalizes words that appear everywhere across all articles (like "said" or "news"). Multiplying TF by IDF assigns the highest mathematical weights to words that are uniquely descriptive of that specific document.'
   },
   {
     id: 13,
-    category: 'ML',
-    question: 'What is the difference between LinearSVC and Support Vector Machine with RBF kernel?',
-    answer: 'LinearSVC uses a linear kernel optimized specifically for massive high-dimensional sparse feature spaces (like 10,000 TF-IDF features). It computes in O(N) time with liblinear. Non-linear kernels like RBF map features to infinite dimensions, which is computationally expensive and generally unnecessary for text where classes are already linearly separable.'
+    category: 'NLP & Text',
+    question: 'What is the difference between Count Vectorization and TF-IDF?',
+    answer: 'Count Vectorization simply counts raw word occurrences, which unfairly gives the highest scores to common filler words. TF-IDF balances frequency with rarity across the entire collection, filtering out universal noise and highlighting distinctive discriminative words.'
   },
   {
     id: 14,
-    category: 'ML',
-    question: 'What is the F1-Score formula and why is the harmonic mean used?',
-    answer: 'F1 = 2 * (Precision * Recall) / (Precision + Recall). The harmonic mean is used rather than the arithmetic mean because it severely penalizes extreme disparities; if either Precision or Recall drops to zero, the F1-score plummets to zero.'
+    category: 'NLP & Text',
+    question: 'What are Stopwords and why do we remove them?',
+    answer: 'Stopwords are extremely common grammatical words such as "the", "is", "at", "which", and "on". They carry little to no topical or discriminative sentiment for distinguishing between real and fake news, so removing them reduces noise and speeds up processing.'
   },
   {
     id: 15,
-    category: 'ML',
-    question: 'Does our model verify real-world factual truth?',
-    answer: 'No. The model evaluates linguistic style, sensational lexical cues, syntactic structure, and statistical word correlations learned from the training corpus. It cannot access external real-time facts or verify historical events, which is an important limitation to emphasize during project evaluation.'
+    category: 'NLP & Text',
+    question: 'What are N-grams and why do we use both Unigrams and Bigrams?',
+    answer: 'An N-gram is a continuous sequence of N words. A unigram is a single word ("miracle"), while a bigram is a pair of consecutive words ("miracle cure" or "official statement"). Using both unigrams and bigrams captures multi-word phrases that carry far clearer credibility signals than individual words alone.'
   },
-
-  // 10 Python Questions
   {
     id: 16,
-    category: 'Python',
-    question: 'What is a Python virtual environment and why must every developer use one?',
-    answer: 'A virtual environment (created with python -m venv venv) is an isolated workspace directory containing its own Python interpreter and site-packages folder. It prevents dependency conflicts between different projects and ensures team members install identical library versions specified in requirements.txt without polluting the global system Python.'
+    category: 'NLP & Text',
+    question: 'Why do we convert all text to lowercase during preprocessing?',
+    answer: 'Converting text to lowercase ensures that identical words with different capitalizations (such as "BREAKING", "Breaking", and "breaking") are treated as the same token, preventing unnecessary duplication in the vocabulary.'
   },
   {
     id: 17,
-    category: 'Python',
-    question: 'What is Joblib and why is it preferred over Python\'s standard pickle for ML?',
-    answer: 'Joblib is an optimized serialization library that handles large NumPy arrays and scientific matrices significantly faster than standard pickle. In scikit-learn, joblib uses memory-mapping techniques and compressed disk buffers to serialize and reload large trained estimators efficiently.'
+    category: 'NLP & Text',
+    question: 'Why do we clean URLs and HTML markup from incoming news?',
+    answer: 'Web links, website domains, and HTML formatting tags (like <p> or <br>) represent artifacts of internet publishing and web scraping. They do not represent journalistic syntax and would only introduce irrelevant noise into the feature matrix.'
   },
   {
     id: 18,
-    category: 'Python',
-    question: 'What does if __name__ == "__main__": do in Python?',
-    answer: 'It checks whether the script is being executed directly by the user (where __name__ is set to "__main__") or imported into another script as a module. This ensures that training scripts or server boot logic only execute when explicitly run in terminal, and not when helper functions are imported.'
+    category: 'NLP & Text',
+    question: 'Why did we combine the news headline and body text before processing?',
+    answer: 'Headlines contain emotional triggers, clickbait framing, and urgent hooks, while body paragraphs provide journalistic syntax and attribution density. Analyzing both together gives the system the full spectrum of linguistic signals.'
   },
+
+  // Evaluation & Metrics
   {
     id: 19,
-    category: 'Python',
-    question: 'What is the purpose of pandas DataFrame in data preprocessing?',
-    answer: 'Pandas DataFrames provide tabular, high-performance two-dimensional data structures with labeled axes (rows and columns). They offer vectorized operations for filtering, handling missing null entries with dropna(), removing duplicates with drop_duplicates(), and mapping lambda functions.'
+    category: 'Evaluation',
+    question: 'What is a Confusion Matrix and what are its four outcomes?',
+    answer: 'A Confusion Matrix is a 2x2 grid comparing actual labels against predicted labels: 1) True Positive (TP): Fake news correctly caught as Fake. 2) True Negative (TN): Real news correctly identified as Real. 3) False Positive (FP / Type I Error): Real news mistakenly flagged as Fake. 4) False Negative (FN / Type II Error): Fake news mistakenly accepted as Real.'
   },
   {
     id: 20,
-    category: 'Python',
-    question: 'How does regex (re module) assist in NLP text cleaning?',
-    answer: 'The re module allows pattern-based string substitutions using compiled regular expressions. In our project, re.sub(r"https?:\\/\\/\\S+|www\\.\\S+", "", text) strips hyperlinks, and re.sub(r"<.*?>", "", text) removes HTML tags prior to tokenization.'
+    category: 'Evaluation',
+    question: 'What is Precision and why does it matter in news moderation?',
+    answer: 'Precision is the ratio of correctly identified fake articles to all articles flagged as fake: TP / (TP + FP). High precision ensures the system rarely misidentifies legitimate journalism as fake, preserving user trust and freedom of expression.'
   },
   {
     id: 21,
-    category: 'Python',
-    question: 'What is the difference between Flask and Django?',
-    answer: 'Flask is a lightweight WSGI micro-framework that provides minimalistic core routing and request handling, leaving database and architecture choices to the developer. Django is a "batteries-included" full-stack framework with an integrated ORM, admin panel, and authentication system. Flask is ideal for lightweight ML model deployment.'
+    category: 'Evaluation',
+    question: 'What is Recall and why does it matter in misinformation defense?',
+    answer: 'Recall is the ratio of correctly caught fake articles to all actual fake articles in the dataset: TP / (TP + FN). High recall ensures that widespread dangerous hoaxes and scams do not slip through undetected.'
   },
   {
     id: 22,
-    category: 'Python',
-    question: 'What is a docstring and PEP 8 in Python?',
-    answer: 'A docstring is a string literal appearing as the first statement in a function, class, or module (enclosed in triple quotes) used for interactive documentation and help(). PEP 8 is the official Python Enhancement Proposal describing style guidelines for readability (naming conventions, 4-space indentation, 79-character line limits).'
+    category: 'Evaluation',
+    question: 'What is the F1-Score and why is it preferred over Accuracy?',
+    answer: 'The F1-Score is the harmonic mean of Precision and Recall: 2 * (Precision * Recall) / (Precision + Recall). While Accuracy can be misleading on imbalanced data, F1-Score gives an honest, balanced measure of overall classification reliability.'
   },
   {
     id: 23,
-    category: 'Python',
-    question: 'How does Flask render HTML templates and access static files?',
-    answer: 'Flask uses the Jinja2 templating engine. The render_template("index.html", key=value) function reads files from the "templates" folder and dynamically injects Python variables using {{ variable }} syntax. CSS, JavaScript, and images are served statically from the "static" folder via url_for("static", filename="style.css").'
+    category: 'Evaluation',
+    question: 'What is the consequence of a Type I error (False Positive) in our application?',
+    answer: 'A Type I error occurs when authentic news is wrongly labeled as Fake. This damages publisher credibility and can lead to unnecessary censorship of factual information.'
   },
   {
     id: 24,
-    category: 'Python',
-    question: 'What is the difference between a GET request and a POST request in Flask?',
-    answer: 'A GET request requests data from a specified resource and appends parameters in the URL query string, making it visible and limited in length. A POST request submits data within the HTTP request body, which is required for submitting long multi-paragraph news articles securely.'
-  },
-  {
-    id: 25,
-    category: 'Python',
-    question: 'What is pip and what command generates requirements.txt?',
-    answer: 'pip is the package installer for Python that downloads and installs distributions from the Python Package Index (PyPI). The command pip freeze > requirements.txt captures all currently installed libraries and their pinned versions in the active environment.'
+    category: 'Evaluation',
+    question: 'What is the consequence of a Type II error (False Negative) in our application?',
+    answer: 'A Type II error occurs when deceptive news slips past the filter and is labeled as Real. This allows viral misinformation, health scams, or malicious rumors to mislead readers.'
   },
 
-  // 5 Project-Specific Questions
+  // System Design & Architecture
+  {
+    id: 25,
+    category: 'System Design',
+    question: 'What is Model Serialization and why is it necessary?',
+    answer: 'Model serialization is the process of saving trained mathematical weights and vectorizer vocabularies into persistent storage files. Without serialization, the server would have to re-read thousands of training articles and retrain the model on every single user request, causing unacceptable delays.'
+  },
   {
     id: 26,
-    category: 'Project',
-    question: 'How did you handle the cold-start problem when model files do not yet exist?',
-    answer: 'In app.py, the load_artifacts() function checks for the physical existence of fake_news_model.joblib and tfidf_vectorizer.joblib. If missing, it provides a descriptive error prompt instructing the user to execute "python train_model.py". In train_model.py, a starter dataset is automatically generated if news.csv is absent.'
+    category: 'System Design',
+    question: 'Explain the 3-Tier Architecture of this web application.',
+    answer: 'The architecture consists of: 1) Presentation Layer: Clean web user interface for entering headlines and viewing colored result cards. 2) Application & Processing Layer: Handles form validation, text cleaning, and vectorization. 3) Machine Learning Inference Layer: Executes the trained classifier and calculates confidence scores.'
   },
   {
     id: 27,
-    category: 'Project',
-    question: 'Why did we combine the title and text columns before TF-IDF vectorization?',
-    answer: 'News headlines frequently contain the most sensational, clickbait, and emotionally charged linguistic tokens, while the body text provides grammatical context and factual citation density. Concatenating both into a single combined string provides the vectorizer with comprehensive textual signals.'
+    category: 'System Design',
+    question: 'How does the system handle empty inputs or invalid submissions?',
+    answer: 'Input validation guards the processing pipeline. If the user submits an empty box or text under 3 words, the system intercepts the request and displays a clear advisory alert, preventing crashes and meaningless calculations.'
   },
   {
     id: 28,
-    category: 'Project',
-    question: 'How did you ensure the project is responsive and user-friendly for non-technical users?',
-    answer: 'The web interface features responsive CSS media queries for desktop and mobile, quick-fill sample buttons so reviewers can test real and fake articles with one click, a clear color-coded status badge (Red for Fake, Green for Real), a confidence percentage indicator, and input error validations.'
+    category: 'System Design',
+    question: 'Why is a Decision Confidence Score provided alongside the label?',
+    answer: 'A binary label ("Real" or "Fake") does not reveal how certain the model is. A confidence score (such as 94.2%) indicates whether the text strongly matches known patterns or falls close to the ambiguous decision boundary.'
   },
   {
     id: 29,
-    category: 'Project',
-    question: 'What are the main ethical considerations and societal impacts of this project?',
-    answer: 'Automated fake news detection helps citizens and content moderators identify manipulative disinformation, mitigating societal panic and medical misinformation. However, false positives could infringe on free speech or legitimate investigative journalism; hence, models must act as assistive warning flags with clear disclaimers, not authoritarian censors.'
+    category: 'System Design',
+    question: 'What are the main ethical responsibilities of building a news detection tool?',
+    answer: 'The system must operate with complete transparency. It should provide disclaimers stating that predictions are based on stylistic training patterns, present confidence scores clearly, and serve as an assistive advisor rather than an authoritarian censor.'
   },
   {
     id: 30,
-    category: 'Project',
-    question: 'What are the three most promising future enhancements for this system?',
-    answer: '1. Transformer integration: Implementing fine-tuned RoBERTa or BERT for deep semantic context and sarcasm detection. 2. Knowledge Graph API verification: Cross-referencing named entities against live knowledge bases (Wikidata or Google Fact Check Tools API). 3. Multi-modal analysis: Detecting manipulated accompanying images and deepfakes alongside text.'
+    category: 'System Design',
+    question: 'What are three promising future architectural upgrades for this project?',
+    answer: '1) Contextual Transformers: Incorporating models like BERT or RoBERTa for nuanced semantic understanding. 2) Knowledge Graph Integration: Checking claims against structured knowledge bases like Wikidata. 3) Multi-Modal Forensics: Analyzing accompanying photos to detect digital tampering.'
   }
 ];
 
@@ -211,10 +212,10 @@ export const COLLEGE_STEPS: StepItem[] = [
     summary: 'Master the core academic foundations: project abstract, problem statement, existing vs proposed system, objectives, advantages, and system architecture workflow.',
     content: `
 ### Project Title
-**Fake News Detection System Using Python and Machine Learning**
+**Fake News Detection System Using Machine Learning**
 
 ### 1.1 Project Abstract
-The exponential proliferation of digital media and unverified social network forwards has made the automated identification of disinformation a paramount challenge. This project develops an end-to-end Machine Learning web application utilizing Python, Natural Language Processing (NLP), and Scikit-Learn. Raw news text is preprocessed through lowercase normalization, regular expression sanitization, and stop-word elimination, followed by Term Frequency-Inverse Document Frequency (TF-IDF) feature extraction with unigrams and bigrams. Four supervised classification algorithms—Passive Aggressive Classifier, Logistic Regression, Multinomial Naive Bayes, and Linear Support Vector Machine—are systematically evaluated on a benchmark news corpus. The highest-performing model is serialized via Joblib and deployed through a lightweight Flask web framework, delivering real-time credibility assessments, decision confidence scores, and transparent linguistic indicators.
+The exponential proliferation of digital media and unverified social network forwards has made the automated identification of disinformation a paramount challenge. This project develops an end-to-end Machine Learning web application utilizing Natural Language Processing (NLP). Raw news text is preprocessed through lowercase normalization, regular expression sanitization, and stop-word elimination, followed by Term Frequency-Inverse Document Frequency (TF-IDF) feature extraction with unigrams and bigrams. Four supervised classification algorithms—Passive Aggressive Classifier, Logistic Regression, Multinomial Naive Bayes, and Linear Support Vector Machine—are systematically evaluated on a benchmark news corpus. The highest-performing model is serialized and deployed through a lightweight web framework, delivering real-time credibility assessments, decision confidence scores, and transparent linguistic indicators.
 
 ### 1.2 Introduction
 In the modern information ecosystem, false narratives spread significantly faster than verified truths, shaping political discourse, causing financial disruption, and compromising public healthcare decisions. Manual fact-checking cannot scale with the hundreds of thousands of articles posted daily. Machine learning provides an automated first line of defense by detecting stylometric anomalies, hyperbolic clickbait phrases, and sensational syntactic structures.
@@ -223,30 +224,15 @@ In the modern information ecosystem, false narratives spread significantly faste
 To engineer a scalable, robust, and user-friendly web-based computational framework capable of classifying arbitrary news text as either REAL or FAKE, measuring model decision confidence, and educating users on statistical linguistic cues without hallucinating factual guarantees.
 
 ### 1.4 Existing System vs. Proposed System
-
-| Attribute | Existing Fact-Checking Systems | Our Proposed ML System |
-|---|---|---|
-| **Approach** | Manual human journalist verification | Automated NLP & Supervised ML Classifiers |
-| **Speed** | Hours to days per article | Near instantaneous (< 50 milliseconds) |
-| **Scalability** | Severely bottlenecked by labor | Infinitely scalable via REST API & Web UI |
-| **Cost** | High editorial personnel expenses | Zero licensing costs, runs on open-source stack |
-| **Objectivity** | Subject to editorial human bias | Consistent statistical pattern recognition |
-| **Explainability** | Detailed subjective human essays | Quantitative TF-IDF tokens & confidence scores |
+- **Existing System (Manual Human Fact-Checking):** Slow (takes hours to days), high labor costs, susceptible to human fatigue, and cannot keep up with millions of viral daily posts.
+- **Proposed System (Machine Learning Classifier):** Operates in milliseconds, zero marginal cost per check, scalable via web interface, and provides objective pattern scoring.
 
 ### 1.5 Project Objectives
 1. Implement standard NLP cleaning pipelines to isolate high-signal semantic tokens from unformatted news text.
 2. Convert text into high-dimensional numerical feature matrices using TF-IDF vectorization with unigram and bigram ranges.
-3. Compare the predictive performance of 4 machine learning algorithms (PAC, Logistic Regression, Naive Bayes, Linear SVC) using Accuracy, Precision, Recall, and F1-Score.
-4. Serialize and persist the top-performing estimator and vectorizer artifacts.
-5. Construct a responsive Flask web application that accepts user input, handles edge cases, and outputs classified predictions with confidence metrics.
-
-### 1.6 Scope of the Project
-- **Included:** English news text, headlines, social media forward paragraphs, statistical classification, confidence score, web interface.
-- **Excluded:** Non-English multi-lingual parsing, video/audio deepfake detection, live fact-checking against real-time breaking news without historical training patterns.
-
-### 1.7 Advantages & Limitations
-- **Advantages:** Instantaneous classification, zero database licensing fees, transparent token weights, lightweight footprint runnable on standard consumer hardware.
-- **Limitations:** Relies on vocabulary patterns learned from training data; cannot independently verify factual claims that mimic standard journalistic formatting.
+3. Compare the predictive performance of 4 machine learning algorithms using Accuracy, Precision, Recall, and F1-Score.
+4. Persist the top-performing estimator and vectorizer artifacts for rapid inference.
+5. Construct a responsive web application that accepts user input, handles edge cases, and outputs classified predictions with confidence metrics.
 `,
     keyTakeaways: [
       'Understand the difference between manual fact-checking and automated statistical NLP classification.',
@@ -256,597 +242,407 @@ To engineer a scalable, robust, and user-friendly web-based computational framew
   },
   {
     stepNumber: 2,
-    title: 'Software and Hardware Requirements',
-    category: 'Environment',
-    summary: 'Hardware specifications, Python 3.10+ setup, VS Code configuration, and environment verification commands.',
+    title: 'System and Hardware Requirements (Pure Concepts & Specifications)',
+    category: 'System Architecture',
+    summary: 'Hardware specifications, operating system compatibility, architecture layers, and functional dependencies explained conceptually.',
     content: `
 ### 2.1 Hardware Requirements
-- **Processor:** Intel Core i3 (6th Gen or later) / AMD Ryzen 3 / Apple Silicon M-series.
-- **RAM:** Minimum 4 GB RAM (8 GB recommended for large dataset TF-IDF matrix operations).
-- **Storage:** 2 GB of free disk space for Python, libraries, datasets, and VS Code.
-- **Display:** Standard 1366x768 resolution or higher.
+- **Processor:** Dual-core or Quad-core modern processor (Intel Core i3/i5, AMD Ryzen, or equivalent).
+- **RAM:** Minimum 4 GB RAM (8 GB recommended for holding high-dimensional TF-IDF matrices in memory during model evaluation).
+- **Storage:** 2 GB of free disk space for housing datasets, serialized model parameters, and web assets.
+- **Display:** Standard 1366x768 resolution or higher with web browser support.
 
-### 2.2 Software Requirements
-- **Operating System:** Windows 10/11, macOS, or Ubuntu/Linux.
-- **Programming Language:** Python 3.10.x or Python 3.11.x (official installer from python.org).
-- **Code Editor:** Visual Studio Code (VS Code) with Python extension by Microsoft.
-- **Version Control:** Git (git-scm.com) and a free GitHub account.
-- **Browser:** Google Chrome, Mozilla Firefox, or Microsoft Edge.
-
-### 2.3 Verification Commands (Run in Terminal / PowerShell)
-Run these commands in your VS Code terminal to verify your installations:
-\`\`\`bash
-# Check Python installation and version
-python --version
-# Expected output: Python 3.10.x or 3.11.x
-
-# Check pip (Python Package Installer)
-pip --version
-# Expected output: pip 23.x or 24.x from ...
-
-# Check Git installation
-git --version
-# Expected output: git version 2.x.x
-\`\`\`
+### 2.2 Software Environment & Architecture Layers
+- **Operating System:** Windows 10/11, macOS, or Linux.
+- **Presentation Layer:** Modern web browser (Chrome, Edge, Firefox, Safari) displaying responsive HTML5 and CSS3 user interfaces.
+- **Web Application Server Layer:** Lightweight HTTP request-response dispatcher that accepts submitted text and manages session states.
+- **Data Preprocessing & NLP Layer:** String sanitization, symbol stripping, and stopword filtering pipeline.
+- **Machine Learning Inference Engine:** High-dimensional vector space transformer and margin-based linear classification estimator.
 `,
     keyTakeaways: [
-      'Ensure "Add Python to PATH" was checked during Python installation on Windows.',
-      'Verify Python, pip, and Git using terminal commands before creating project files.'
+      'The architecture requires minimal hardware; standard student laptops can easily train and host the model.',
+      'The separation of concerns between presentation, processing, and inference ensures clean system design.'
     ]
   },
   {
     stepNumber: 3,
-    title: 'Project Folder Creation and Architecture',
-    category: 'Environment',
-    summary: 'Exact directory hierarchy, file placement rules, and modular responsibilities for each component.',
+    title: 'Project Folder Structure & Modular Responsibilities',
+    category: 'System Architecture',
+    summary: 'Logical directory hierarchy, separation of concerns, and responsibilities of each component.',
     content: `
-### 3.1 Creating the Project Folder in Windows
-1. Open File Explorer, navigate to \`C:\\Users\\YourName\\Documents\` or \`D:\\Projects\`.
-2. Right-click -> New -> Folder, name it \`Fake-News-Detection\`.
-3. Open VS Code, select **File -> Open Folder**, and choose \`Fake-News-Detection\`.
-
-### 3.2 Standard Folder Structure
-\`\`\`
-Fake-News-Detection/
-├── dataset/
-│   └── news.csv              # Training dataset with title, text, and labels
-├── model/
-│   ├── fake_news_model.joblib# Serialized best trained model
-│   └── tfidf_vectorizer.joblib# Serialized TF-IDF vectorizer
-├── templates/
-│   └── index.html            # Flask Jinja2 web template
-├── static/
-│   └── style.css             # Frontend styling
-├── app.py                    # Flask web application server
-├── train_model.py            # Training pipeline and evaluation script
-├── requirements.txt          # Python library dependencies
-├── .gitignore                # Files excluded from git commits
-└── README.md                 # Complete documentation and instructions
-\`\`\`
+### 3.1 Logical Directory Organization
+A robust machine learning software project organizes files according to clear operational boundaries:
+1. **Dataset Repository:** Dedicated storage for raw and cleaned benchmark news records.
+2. **Model Persistence Vault:** Secure directory holding pre-trained serialized model weights and feature vocabulary mappings.
+3. **User Interface Templates:** Web presentation views containing input boxes, status cards, and layout elements.
+4. **Visual Style Assets:** CSS stylesheets controlling color themes, elevations, responsive grids, and typography.
+5. **Inference Server Controller:** Coordinates incoming user requests, invokes the NLP pipeline, and returns predictions.
+6. **Training & Benchmarking Pipeline:** Handles end-to-end dataset loading, 80:20 splitting, multi-algorithm evaluation, and artifact saving.
+7. **Documentation & Version Exclusions:** Comprehensive README guide and version control exclusion rules.
 `,
     keyTakeaways: [
-      'Strict separation of concerns: templates for HTML, static for CSS, model for binary weights.',
-      'Keeping datasets and serialized models organized makes deployment seamless.'
+      'Clean modularity separates static presentation, machine learning artifacts, and data storage.',
+      'Enables independent updates: model retraining does not disrupt the web layout.'
     ]
   },
   {
     stepNumber: 4,
-    title: 'Python Virtual Environment Setup',
-    category: 'Environment',
-    summary: 'Isolate dependencies using venv to prevent version collisions with system Python.',
+    title: 'Isolated Execution Environments',
+    category: 'System Architecture',
+    summary: 'Why modern software relies on isolated environments to ensure reproducibility across machines.',
     content: `
-### 4.1 What is a Virtual Environment?
-A virtual environment is a self-contained directory tree that contains a specific Python installation plus a number of additional packages. It isolates project libraries from global operating system packages.
+### 4.1 Concept of an Isolated Environment
+In modern software engineering, an isolated environment is a dedicated directory sandbox containing its own runtime binaries and library collections. 
 
-### 4.2 Terminal Commands for Virtual Environment (VS Code)
-\`\`\`bash
-# 1. Create a virtual environment named 'venv'
-python -m venv venv
-
-# 2. Activate the virtual environment in Windows PowerShell / Command Prompt
-# In Command Prompt:
-venv\\Scripts\\activate.bat
-
-# In PowerShell:
-venv\\Scripts\\Activate.ps1
-
-# Note: If PowerShell gives an execution policy error, run this once:
-# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-
-# In macOS / Linux:
-source venv/bin/activate
-
-# 3. Notice the prompt changes to: (venv) C:\\...\\Fake-News-Detection>
-
-# 4. To deactivate when finished:
-deactivate
-\`\`\`
+### 4.2 Why Isolation is Essential:
+1. **Dependency Protection:** Prevents different projects from requiring conflicting library versions.
+2. **Reproducibility:** Guarantees that any college examiner, peer, or recruiter running the project will obtain identical behavior.
+3. **Clean Uninstallation:** Eliminating the project folder completely cleans all installed components without affecting the host operating system.
 `,
     keyTakeaways: [
-      'Always activate the virtual environment before running pip install or python commands.',
-      'Notice the (venv) indicator at the start of your terminal prompt.'
+      'Isolation protects your system from package conflicts.',
+      'Ensures consistent execution across college lab computers and presentation laptops.'
     ]
   },
   {
     stepNumber: 5,
-    title: 'Install Required Python Libraries',
-    category: 'Environment',
-    summary: 'Install and understand pandas, numpy, scikit-learn, flask, matplotlib, seaborn, and joblib.',
+    title: 'Required Computational Modules & Libraries',
+    category: 'System Architecture',
+    summary: 'Conceptual overview of data manipulation, mathematical computing, NLP, and web serving components.',
     content: `
-### 5.1 Library Breakdown
-1. **pandas:** Reads CSV files, cleans dataframes, drops nulls and duplicate articles.
-2. **numpy:** High-performance numerical multi-dimensional arrays for TF-IDF calculations.
-3. **scikit-learn:** Provides TfidfVectorizer, machine learning algorithms, and evaluation metrics.
-4. **flask:** Lightweight Python web server that connects frontend forms to the ML pipeline.
-5. **matplotlib & seaborn:** Generates charts, confusion matrices, and frequency plots.
-6. **joblib:** Serializes model weights to disk for instant loading during web inference.
-
-### 5.2 Create requirements.txt and Install
-\`\`\`bash
-# Upgrade pip to latest version
-python -m pip install --upgrade pip
-
-# Install all dependencies at once
-pip install -r requirements.txt
-\`\`\`
-
-### 5.3 Verification Command
-\`\`\`bash
-python -c "import pandas, sklearn, flask, joblib; print('[OK] All libraries installed successfully!')"
-\`\`\`
+### 5.1 Role of Each Core Component
+1. **Tabular Data Processor:** Loads news datasets from CSV storage, handles missing fields, and eliminates duplicate entries.
+2. **High-Performance Numerical Array Engine:** Manages multi-dimensional matrix operations for vector math.
+3. **Machine Learning & NLP Framework:** Implements TF-IDF vectorization, train-test splitting, classification algorithms, and metric calculations.
+4. **Web Server Dispatcher:** Receives HTTP form submissions from users and renders dynamic web pages.
+5. **Data Visualization Suite:** Plots exploratory data graphs, class balance bar charts, and confusion matrices.
+6. **Model Serialization Engine:** Efficiently packages mathematical matrices and vocabularies into binary storage on disk.
 `,
     keyTakeaways: [
-      'requirements.txt ensures identical reproducibility across every developer machine.',
-      'Test library imports using python -c to confirm installation.'
+      'Each component handles one distinct responsibility in the pipeline.',
+      'Together, they form a cohesive data-to-prediction ecosystem.'
     ]
   },
   {
     stepNumber: 6,
-    title: 'Dataset Collection and Understanding',
-    category: 'Data & ML',
-    summary: 'Source benchmark news datasets, explore columns, and understand class balance.',
+    title: 'Dataset Collection, Features & Data Understanding',
+    category: 'Data Pipeline',
+    summary: 'Anatomy of benchmark news datasets, attributes, class distributions, and data integrity checks.',
     content: `
-### 6.1 Recommended Dataset
-- **Kaggle Fake News Dataset / WELFake / ISOT Dataset**: Contains real news from Reuters/AP and fake news collected from untrustworthy web outlets.
-- Columns:
-  - \`title\`: Headline of the news article.
-  - \`text\`: Full article body paragraphs.
-  - \`label\`: Ground truth target (\`REAL\` or \`FAKE\`, or \`0\` for real and \`1\` for fake).
+### 6.1 Benchmark News Corpora
+Reliable datasets (such as Kaggle Fake and Real News, WELFake, or the ISOT corpus) contain thousands of articles collected from verified wire agencies (e.g., Reuters, Associated Press) alongside unverified articles from flagged blogs and social channels.
 
-### 6.2 Inspecting Dataset with Pandas
-\`\`\`python
-import pandas as pd
+### 6.2 Primary Data Attributes
+- **Title (Headline):** The headline of the news story (often contains high-potency clickbait hooks or formal journalistic topic summaries).
+- **Text (Body):** The full body text of the article containing claims, arguments, citations, or rumors.
+- **Label (Target Variable):** The verified ground-truth designation: **REAL** or **FAKE**.
 
-# Load CSV file
-df = pd.read_csv('dataset/news.csv')
-
-# Display first 5 records
-print(df.head())
-
-# Check row and column counts
-print("Dimensions:", df.shape)
-
-# Check missing null values
-print("Missing values per column:\\n", df.isnull().sum())
-
-# Check class balance
-print("Class Distribution:\\n", df['label'].value_counts())
-\`\`\`
+### 6.3 Data Quality & Integrity Checks
+- **Class Balance Analysis:** Ensuring an approximately 50:50 ratio of Real to Fake articles to prevent classifier bias.
+- **Missing Value Handling:** Removing empty records or records lacking ground truth labels.
+- **Duplicate De-duplication:** Dropping duplicate articles to prevent artificial inflation of accuracy during testing.
 `,
     keyTakeaways: [
-      'Always check class balance; equal real vs fake records prevents model prediction bias.',
-      'Combine title and text into a unified string to capture both sensational headlines and body syntax.'
+      'A balanced dataset prevents the model from developing a bias toward either class.',
+      'Combining headline and body text provides both sensationalism cues and syntactic evidence.'
     ]
   },
   {
     stepNumber: 7,
-    title: 'Data Cleaning and Preprocessing (NLP)',
-    category: 'Data & ML',
-    summary: 'Standardize text with lowercase conversion, regex URL/HTML stripping, and punctuation elimination.',
+    title: 'Data Cleaning and Natural Language Processing (NLP)',
+    category: 'Data Pipeline',
+    summary: 'How text is normalized, filtered, and transformed from raw prose into clean semantic tokens.',
     content: `
-### 7.1 NLP Preprocessing Steps
-1. **Lowercase:** Ensures "BREAKING", "Breaking", and "breaking" resolve to the identical token.
-2. **URL Removal:** Hyperlinks carry no generalizable semantic value.
-3. **HTML Tag Stripping:** Removes remnants of web scraping tags like \`<p>\` or \`<br>\`.
-4. **Punctuation Removal:** Eliminates brackets, quotes, and symbols to isolate semantic words.
-5. **Whitespace Normalization:** Compresses duplicate spaces and tabs.
-
-### 7.2 Python Preprocessing Function
-\`\`\`python
-import re
-import string
-
-def clean_text(text):
-    if not isinstance(text, str):
-        return ""
-    text = text.lower()
-    text = re.sub(r'https?://\\S+|www\\.\\S+', ' ', text)
-    text = re.sub(r'<.*?>', ' ', text)
-    text = text.translate(str.maketrans('', '', string.punctuation))
-    text = re.sub(r'\\d+', ' ', text)
-    text = re.sub(r'\\s+', ' ', text).strip()
-    return text
-\`\`\`
+### 7.1 The NLP Preprocessing Pipeline
+1. **Case Normalization:** Standardizing all characters to lowercase so that word representations are case-insensitive.
+2. **URL & Hyperlink Removal:** Web links contain arbitrary domain strings that offer no generalizable semantic value.
+3. **Markup & HTML Stripping:** Erasing web formatting tags left behind by article scraping.
+4. **Punctuation & Numerical Filtering:** Isolating pure vocabulary words and stripping distracting non-alphabetical characters.
+5. **Stop-word Removal:** Dropping universally frequent grammatical glue words ("the", "is", "at", "by") that carry zero discriminative signal.
 `,
     keyTakeaways: [
-      'Cleaning removes noise that would otherwise bloat the vocabulary matrix with useless tokens.',
-      'Apply the identical cleaning function to incoming user text during web prediction!'
+      'Garbage in, garbage out: thorough cleaning isolates high-signal vocabulary.',
+      'The exact same preprocessing steps must be applied to user queries during live web testing.'
     ]
   },
   {
     stepNumber: 8,
     title: 'Exploratory Data Analysis (EDA)',
-    category: 'Data & ML',
-    summary: 'Visualizing class distribution, article length distribution, and vocabulary frequencies with Seaborn.',
+    category: 'Data Pipeline',
+    summary: 'Visualizing patterns, article lengths, class balances, and vocabulary frequencies.',
     content: `
-### 8.1 EDA Objectives
-- Validate that the dataset does not have severe class imbalance.
-- Examine word length differences: fake news often exhibits shorter, more hyperbolic articles or extreme ALL-CAPS usage.
-- Plot top unigrams for both real and fake classes.
-
-### 8.2 EDA Script Snippet
-\`\`\`python
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# Plot class balance
-plt.figure(figsize=(6, 4))
-sns.countplot(data=df, x='label', palette=['#10b981', '#ef4444'])
-plt.title('Real vs. Fake News Class Distribution')
-plt.xlabel('News Label')
-plt.ylabel('Count')
-plt.tight_layout()
-plt.savefig('static/eda_distribution.png')
-plt.close()
-\`\`\`
+### 8.1 Key Insights from EDA
+1. **Class Balance:** Validating that real and fake articles are evenly represented.
+2. **Length Distributions:** Fake news articles frequently exhibit shorter body lengths accompanied by sensational, exaggerated headlines.
+3. **Punctuation & Capitalization Tendencies:** Misleading articles show higher frequencies of exclamation marks and capitalized words.
+4. **Vocabulary Signatures:** Genuine journalism frequently features institutional attribution markers ("according to", "spokesperson", "published in"), whereas clickbait features emotional urgency ("shocking", "miracle", "banned").
 `,
     keyTakeaways: [
-      'Visualizations demonstrate deep understanding of data during college project presentations.',
-      'Save EDA plots into static/ to display them directly on the web application.'
+      'EDA uncovers the statistical patterns that machine learning algorithms later exploit.',
+      'Visual graphs provide compelling evidence during project evaluations.'
     ]
   },
   {
     stepNumber: 9,
-    title: 'Feature Extraction Using TF-IDF Vectorizer',
-    category: 'Data & ML',
-    summary: 'Convert text strings into numerical vectors using Term Frequency-Inverse Document Frequency.',
+    title: 'Feature Extraction Using TF-IDF Vectorization',
+    category: 'Machine Learning',
+    summary: 'How words are converted into mathematical vectors using Term Frequency and Inverse Document Frequency.',
     content: `
-### 9.1 Why TF-IDF Instead of Simple Word Counts?
-CountVectorizer counts word frequencies, which unfairly awards highest weights to universally frequent words like "the", "said", or "news". TF-IDF penalizes universally frequent words through the Inverse Document Frequency factor, highlighting terms uniquely predictive of sensationalism or journalism.
+### 9.1 Mathematical Intuition of TF-IDF
+Computers cannot directly read words; they can only process numbers and matrices. 
+- **Term Frequency (TF):** Measures how frequently a word appears inside a given article.
+- **Inverse Document Frequency (IDF):** Calculates the logarithm of the total number of documents divided by how many documents contain that word.
+- **TF-IDF Score:** Words that appear frequently in a specific article, but rarely across the general news corpus, receive the highest scores.
 
-### 9.2 TF-IDF Implementation
-\`\`\`python
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-vectorizer = TfidfVectorizer(
-    stop_words='english',
-    max_df=0.75,         # Ignore terms appearing in > 75% of documents
-    ngram_range=(1, 2),  # Extract both single words and 2-word bigrams
-    max_features=10000   # Retain top 10,000 most significant features
-)
-
-# Fit on training text and transform
-X_train_tfidf = vectorizer.fit_transform(X_train)
-X_test_tfidf = vectorizer.transform(X_test)
-\`\`\`
+### 9.2 Vocabulary Range & N-Grams
+By including both unigrams (single words) and bigrams (word pairs), the vectorizer captures phrases like "miracle cure" or "official statement", providing critical context that isolated words lack.
 `,
     keyTakeaways: [
-      'Fit on train data only, then transform test data to strictly prevent data leakage.',
-      'max_features=10000 keeps the model fast and memory-efficient.'
+      'TF-IDF converts text into high-dimensional numerical coordinates in vector space.',
+      'Bigrams capture essential contextual phrases.'
     ]
   },
   {
     stepNumber: 10,
-    title: 'Splitting the Dataset (Train & Test)',
-    category: 'Data & ML',
-    summary: '80:20 stratified split with fixed random_state to ensure honest, reproducible evaluation.',
+    title: 'Dataset Partitioning & Generalization Strategy',
+    category: 'Machine Learning',
+    summary: 'The rationale behind 80:20 training/test splits and stratified sampling.',
     content: `
-\`\`\`python
-from sklearn.model_selection import train_test_split
+### 10.1 Why Data Splitting is Mandatory
+Evaluating a machine learning model on the same data it was trained on only proves it has memorized the data. True learning is measured by testing the model on unseen data.
 
-X = df['clean_text']
-y = df['label']
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y,
-    test_size=0.20,       # 80% for training, 20% for testing
-    random_state=42,      # Seed for exact reproducibility
-    stratify=y            # Preserve exact class ratio
-)
-
-print(f"Train samples: {len(X_train)} | Test samples: {len(X_test)}")
-\`\`\`
+### 10.2 The 80:20 Stratified Partition
+- **80% Training Set:** Used by the algorithms to calculate weights, margins, and decision boundaries.
+- **20% Testing Set:** Completely hidden during training; used strictly as an honest exam to evaluate real-world performance.
+- **Stratification:** Preserves equal proportions of Real and Fake news in both splits.
 `,
     keyTakeaways: [
-      'Never evaluate a model on the data it was trained on (that is memorization, not learning).',
-      'Stratification maintains label balance in both splits.'
+      'Never evaluate a model on its training data.',
+      'Stratification prevents sampling bias.'
     ]
   },
   {
     stepNumber: 11,
-    title: 'Machine Learning Model Training (4 Classifiers)',
-    category: 'Data & ML',
-    summary: 'Train Passive Aggressive Classifier, Logistic Regression, Linear SVM, and Multinomial Naive Bayes.',
+    title: 'Machine Learning Algorithm Benchmarking',
+    category: 'Machine Learning',
+    summary: 'Conceptual comparison of Passive Aggressive Classifier, Logistic Regression, Linear SVM, and Naive Bayes.',
     content: `
-### 11.1 The 4 Evaluated Algorithms
-1. **Passive Aggressive Classifier:** Rapid margin-based online learner; ideal for large text corpora.
-2. **Logistic Regression:** Probabilistic linear model optimizing cross-entropy loss with L2 regularization.
-3. **Linear Support Vector Machine (LinearSVC):** Constructs an optimal hyper-plane maximizing classification margin.
-4. **Multinomial Naive Bayes:** Probabilistic baseline applying Bayes theorem with word independence.
+### 11.1 The Four Evaluated Algorithms
+1. **Passive Aggressive Classifier (PAC):** An online, margin-based algorithm that updates parameters only when a mistake occurs. It excels with large, sparse text representations and offers rapid training.
+2. **Logistic Regression:** A probabilistic linear model that outputs calibrated confidence probabilities using the sigmoid curve.
+3. **Linear Support Vector Machine (LinearSVC):** Maximizes the margin between Real and Fake news feature vectors, providing robust resistance against overfitting.
+4. **Multinomial Naive Bayes:** A fast probabilistic baseline applying Bayes Theorem with the assumption of word independence.
 
-### 11.2 Model Comparison Loop
-\`\`\`python
-from sklearn.linear_model import PassiveAggressiveClassifier, LogisticRegression
-from sklearn.svm import LinearSVC
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import f1_score
-
-models = {
-    'Passive Aggressive': PassiveAggressiveClassifier(max_iter=1000, random_state=42),
-    'Logistic Regression': LogisticRegression(max_iter=1000, random_state=42),
-    'Linear SVM': LinearSVC(random_state=42, max_iter=2000),
-    'Multinomial Naive Bayes': MultinomialNB()
-}
-
-for name, model in models.items():
-    model.fit(X_train_tfidf, y_train)
-    y_pred = model.predict(X_test_tfidf)
-    print(f"{name} F1-Score: {round(f1_score(y_test, y_pred, pos_label='FAKE') * 100, 2)}%")
-\`\`\`
+### 11.2 Empirical Selection
+Rather than assuming one algorithm is universally best, we benchmark all four on the exact same test dataset and select the top performer based on F1-Score.
 `,
     keyTakeaways: [
-      'Compare multiple algorithms systematically rather than blindly selecting one.',
-      'Passive Aggressive Classifier and Linear SVM consistently excel on sparse TF-IDF text matrices.'
+      'Comparing multiple models demonstrates rigorous scientific methodology in your project report.',
+      'Passive Aggressive Classifier and Linear SVM consistently lead in high-dimensional text classification.'
     ]
   },
   {
     stepNumber: 12,
-    title: 'Model Evaluation and Metrics Interpretation',
-    category: 'Data & ML',
-    summary: 'Deep dive into Accuracy, Precision, Recall, F1-Score, and the Confusion Matrix.',
+    title: 'Model Evaluation Metrics & Confusion Matrix',
+    category: 'Testing & Evaluation',
+    summary: 'Deep dive into Accuracy, Precision, Recall, F1-Score, and the 2x2 Confusion Matrix.',
     content: `
-### 12.1 Metric Definitions with College Exam Formulas
-- **Accuracy:** (TP + TN) / (TP + TN + FP + FN) -> Overall percentage of correct classifications.
-- **Precision:** TP / (TP + FP) -> Out of all articles flagged as FAKE, how many were truly fake?
-- **Recall:** TP / (TP + FN) -> Out of all real FAKE articles, how many did the system catch?
-- **F1-Score:** 2 * (Precision * Recall) / (Precision + Recall) -> Harmonic mean; balances precision and recall.
+### 12.1 Understanding Evaluation Metrics
+- **Accuracy:** The overall percentage of correct predictions out of all test samples.
+- **Precision:** Of all articles flagged as Fake, how many were truly fake? (Minimizes false alarms on real news).
+- **Recall:** Of all actual fake articles, how many did the system catch? (Minimizes missed misinformation).
+- **F1-Score:** The harmonic mean of Precision and Recall, providing a balanced, single-number assessment.
 
-### 12.2 Confusion Matrix Breakdown
-\`\`\`python
-from sklearn.metrics import classification_report, confusion_matrix
-
-print("Confusion Matrix:")
-print(confusion_matrix(y_test, y_pred, labels=['REAL', 'FAKE']))
-
-print("\\nClassification Report:")
-print(classification_report(y_test, y_pred))
-\`\`\`
+### 12.2 Confusion Matrix Anatomy
+- **True Real (TN):** Genuine news correctly identified.
+- **False Fake (FP / Type I Error):** Genuine news mistakenly flagged as fake.
+- **False Real (FN / Type II Error):** Fake news mistakenly accepted as real.
+- **True Fake (TP):** Fake news correctly caught.
 `,
     keyTakeaways: [
-      'Do not rely solely on accuracy; explain precision and recall during viva voce.',
-      'False Positives (flagging real news as fake) hurt credibility; False Negatives (missing fake news) allow misinformation to spread.'
+      'Accuracy alone is insufficient; Precision, Recall, and F1-Score tell the complete story.',
+      'Balancing Type I and Type II errors is vital for user trust.'
     ]
   },
   {
     stepNumber: 13,
-    title: 'Save the Trained Model (Serialization with Joblib)',
-    category: 'Data & ML',
-    summary: 'Save the best model and TF-IDF vectorizer to disk so Flask can load them instantly in under 50ms.',
+    title: 'Model Serialization & Operational Persistence',
+    category: 'System Architecture',
+    summary: 'Saving trained models to disk so the web server can perform instant predictions.',
     content: `
-### 13.1 Why Model Serialization is Crucial
-Without serialization, the Flask server would have to reload the CSV dataset, clean thousands of articles, recompute the TF-IDF matrix, and retrain the classifier every single time a user opens the webpage or makes a prediction! Joblib saves the learned mathematical weights to binary files on disk.
+### 13.1 The Need for Serialization
+Without saving the trained model to disk, every web visitor would trigger a complete dataset re-load, text pre-processing pass, and model retraining process. This would take minutes per request.
 
-### 13.2 Serialization Code
-\`\`\`python
-import joblib
-
-# Save the trained model and the TF-IDF vectorizer
-joblib.dump(best_model, 'model/fake_news_model.joblib')
-joblib.dump(vectorizer, 'model/tfidf_vectorizer.joblib')
-
-print("[OK] Model and Vectorizer persisted to disk successfully!")
-\`\`\`
+### 13.2 Saved Artifacts
+1. **Trained Estimator File:** Stores the numerical weights and decision hyperplane.
+2. **TF-IDF Vectorizer File:** Stores the 10,000-word vocabulary index and inverse document frequency weights.
 `,
     keyTakeaways: [
-      'Both the model AND the vectorizer must be saved together.',
-      'Flask loads these files once upon server boot.'
+      'Serialization enables sub-50ms web predictions.',
+      'Both the vectorizer and the classifier must be saved as a matching pair.'
     ]
   },
   {
     stepNumber: 14,
-    title: 'Build Flask Backend (app.py)',
-    category: 'Web Development',
-    summary: 'Set up routes, request handling, input validation, and clean error messages.',
+    title: 'Web Application Server Architecture',
+    category: 'System Architecture',
+    summary: 'How the backend web controller routes requests, validates input, and invokes the ML engine.',
     content: `
-### 14.1 Key Architecture of app.py
-1. **Initialize App:** \`app = Flask(__name__)\`
-2. **Artifact Loading:** \`joblib.load()\` executed once in \`load_artifacts()\`
-3. **Route Definition:** \`@app.route('/', methods=['GET', 'POST'])\`
-4. **Input Sanitization:** Validate length and empty entries.
-5. **Prediction & Confidence:** Vectorize user text and call \`model.predict()\`.
+### 14.1 Backend Controller Workflow
+1. **Startup:** Loads the serialized model and vectorizer once into memory upon server launch.
+2. **Route Handling:** Serves the main webpage when users visit the site.
+3. **Form Submission:** Receives the headline and article text submitted by the user.
+4. **Validation:** Checks that the input is non-empty and contains at least 3 words.
+5. **Inference Execution:** Passes the text through the NLP cleaning pipeline and classifier.
+6. **Response Delivery:** Returns the predicted class, decision score, and confidence percentage.
 `,
     keyTakeaways: [
-      'Ensure clear, user-friendly error banners for short or empty inputs.',
-      'Gracefully handle missing model files with instructions to run train_model.py.'
+      'Loading artifacts at startup ensures rapid user response times.',
+      'Robust input validation prevents server crashes.'
     ]
   },
   {
     stepNumber: 15,
-    title: 'Develop Frontend (HTML & CSS)',
-    category: 'Web Development',
-    summary: 'Responsive, accessible, and attractive user interface with Jinja2 placeholders.',
+    title: 'User Interface Design & Usability',
+    category: 'System Architecture',
+    summary: 'Creating a modern, accessible, and intuitive front-end interface.',
     content: `
-### 15.1 Frontend Structure
-- Modern navbar with project title and B.Tech CSE badge.
-- Headline / Article textarea with clear placeholder.
-- Interactive test sample buttons for quick viva demonstration.
-- Color-coded result card: Green for REAL NEWS, Red for FAKE NEWS.
-- Disclaimer note on statistical pattern recognition.
+### 15.1 Core UI Components
+- **Clear News Input Area:** Generous text area for pasting articles with clear guidance.
+- **One-Click Test Samples:** Pre-loaded real and fake examples for easy classroom demonstrations.
+- **Distinct Visual Verdicts:** Unambiguous status indicators (Green for Real, Red for Fake).
+- **Confidence Gauge:** Visual progress bar communicating model certainty.
+- **Transparent Linguistic Cues:** Badges showing matched sensational vs. attribution terms.
+- **Academic Disclaimer:** Prominently explains that predictions reflect statistical patterns, not absolute factual truth.
 `,
     keyTakeaways: [
-      'Clean typography and card layout make a strong impression on project evaluators.',
-      'Mobile-responsive CSS ensures usability on any device.'
+      'A polished user interface makes a strong impression during college project evaluations.',
+      'Visual cues make machine learning decisions transparent and understandable.'
     ]
   },
   {
     stepNumber: 16,
-    title: 'Connect Frontend and Backend',
-    category: 'Web Development',
-    summary: 'How HTTP POST requests, Jinja2 template tags, and Flask form handlers work together.',
+    title: 'End-to-End Data Flow Integration',
+    category: 'System Architecture',
+    summary: 'How user input travels through the web layer, NLP pipeline, ML model, and back to the browser.',
     content: `
-### 16.1 Request-Response Lifecycle
-1. User types news article into \`<textarea name="news_text">\` and clicks submit.
-2. Browser issues an HTTP POST request to \`/\`.
-3. Flask extracts text via \`request.form.get('news_text')\`.
-4. Text is cleaned and transformed by \`vectorizer.transform([cleaned])\`.
-5. \`model.predict()\` generates classified label (\`REAL\` or \`FAKE\`).
-6. Flask returns \`render_template('index.html', prediction=..., confidence=...)\`.
-7. Jinja2 renders the appropriate red or green status card.
+### 16.1 The 5-Stage Data Journey
+1. **User Input Stage:** Text entered into browser form.
+2. **Transport Stage:** HTTP request sends data to the application server.
+3. **NLP Transformation Stage:** Text is cleaned, lowercased, and converted to a TF-IDF vector.
+4. **Decision Stage:** The classifier computes the hyperplane margin and class probability.
+5. **Presentation Stage:** The browser displays a color-coded credibility card.
 `,
     keyTakeaways: [
-      'Form names in HTML must exactly match keys in request.form.get().',
-      'Jinja2 conditional logic {% if prediction %} renders output cards only when available.'
+      'Seamless integration connects the front-end user experience to back-end ML math.',
+      'The entire cycle executes in less than 50 milliseconds.'
     ]
   },
   {
     stepNumber: 17,
-    title: 'Run the Complete Project in VS Code',
-    category: 'Testing & Deployment',
-    summary: 'Step-by-step commands to train the model and start the Flask development server.',
+    title: 'Deployment & Execution Verification',
+    category: 'Testing & Evaluation',
+    summary: 'Verifying end-to-end functionality, local hosting, and error resolution.',
     content: `
-### 17.1 Terminal Execution Steps
-\`\`\`bash
-# 1. Open VS Code terminal in project root
-# 2. Activate virtual environment
-venv\\Scripts\\activate
-
-# 3. Train the model (creates model/ folder files)
-python train_model.py
-
-# 4. Start Flask server
-python app.py
-
-# 5. Open browser at: http://127.0.0.1:5000
-# 6. To stop server, press CTRL + C in terminal
-\`\`\`
+### 17.1 Verification Checklist
+1. Ensure the training pipeline completes with zero unhandled exceptions.
+2. Verify that both model files exist in the model directory.
+3. Confirm the web server launches and binds to the designated local port.
+4. Test access in multiple web browsers to verify responsive styling.
 `,
     keyTakeaways: [
-      'Always train the model before launching app.py for the first time.',
-      'Access the running app locally at http://127.0.0.1:5000.'
+      'Always test your full system before presenting to evaluators.',
+      'Keep backup screenshots in your presentation slides.'
     ]
   },
   {
     stepNumber: 18,
-    title: 'Project Testing and Verification Table',
-    category: 'Testing & Deployment',
-    summary: 'Structured test cases including real news, fake clickbait, empty strings, and special characters.',
+    title: 'Structured Testing & Edge Case Scenarios',
+    category: 'Testing & Evaluation',
+    summary: 'Testing boundary conditions, special characters, and typical news samples.',
     content: `
-### 18.1 Comprehensive Test Cases Table
-
-| Test ID | Input Scenario | Sample Input | Expected Output | Status |
-|---|---|---|---|---|
-| **TC-01** | Legitimate Journalistic Report | "NASA telescope confirms exoplanet atmosphere study published in Nature." | LIKELY REAL NEWS (High confidence) | Passed |
-| **TC-02** | Extreme Viral Clickbait | "SHOCKING: 1-minute miracle lemon cure destroys all cancer overnight! Big pharma banning video!" | LIKELY FAKE NEWS (High confidence) | Passed |
-| **TC-03** | Political Conspiracy Theory | "Leaked declassified memo reveals secret reptilian underground bunker beneath capital." | LIKELY FAKE NEWS | Passed |
-| **TC-04** | Empty Input Submission | "" (No characters entered) | Error: "Please enter a news headline or article to check." | Passed |
-| **TC-05** | Very Short Input | "Hello world" (< 3 words) | Error: "Input text is too short. Please provide at least 3 words." | Passed |
-| **TC-06** | Special Characters Only | "??? !@#$%^&*() !!!" | Handled gracefully without server crash | Passed |
+### 18.1 Key Test Scenarios
+- **Legitimate News Test:** Verified wire agency articles should consistently classify as Real.
+- **Sensational Clickbait Test:** Exaggerated medical cures and conspiracy theories should classify as Fake.
+- **Empty Input Test:** Blank submissions must trigger helpful error banners without crashing.
+- **Short Input Test:** Single words or fragments should advise the user to provide more context.
+- **Special Character Test:** Input containing only symbols must be sanitized gracefully.
 `,
     keyTakeaways: [
-      'Testing tables with Pass/Fail status are a mandatory requirement in B.Tech project reports.',
-      'Always test edge cases (empty strings, single words) to prove code robustness.'
+      'A structured test suite demonstrates software engineering maturity.',
+      'Graceful edge-case handling proves system robustness.'
     ]
   },
   {
     stepNumber: 19,
-    title: 'Future Improvements and Advanced Features',
+    title: 'System Enhancements & Future Research Scope',
     category: 'Academic Report & Viva',
-    summary: 'Enhancements to discuss during project defense: Transformers, Deepfakes, and Knowledge Graphs.',
+    summary: 'Discussing advanced directions: deep neural networks, fact-checking APIs, and multi-modal analysis.',
     content: `
-### 19.1 Essential vs. Advanced Features
-- **Core (Implemented):** Text cleaning, TF-IDF, 4-model comparison, web UI, confidence score.
-- **Advanced (Future Scope):**
-  1. **Transformer Models:** Fine-tuning BERT/RoBERTa for deeper semantic awareness.
-  2. **Multi-Modal Detection:** Scanning accompanying images for photoshop or deepfake manipulation.
-  3. **Fact-Checking API Integration:** Live querying of Google Fact Check Tools API.
-  4. **User Auth & History:** SQLite database for user accounts and bookmarking past checks.
+### 19.1 Promising Future Directions
+1. **Deep Contextual Transformers (BERT / RoBERTa):** Capturing subtle sarcasm, irony, and complex narrative flow.
+2. **Knowledge Graph Fact-Checking:** Linking claims to structured knowledge repositories like Wikidata.
+3. **Multi-Modal Forensics:** Analyzing images and thumbnails for signs of digital manipulation or deepfakes.
+4. **Source Credibility Graphs:** Factoring in the historical reputation of the publishing domain.
 `,
     keyTakeaways: [
-      'Examiners appreciate when students clearly articulate both current accomplishments and future research scope.'
+      'Demonstrating awareness of future improvements impresses viva examiners.',
+      'Shows that you understand the boundary between current ML capabilities and ongoing research.'
     ]
   },
   {
     stepNumber: 20,
-    title: 'GitHub Upload and Portfolio Presentation',
+    title: 'Project Versioning & Portfolio Presentation',
     category: 'Academic Report & Viva',
-    summary: 'Git commands to initialize, commit, and push project with proper .gitignore rules.',
+    summary: 'Presenting your project cleanly with architecture diagrams, clear documentation, and proper exclusions.',
     content: `
-### 20.1 Git Commands for Project Upload
-\`\`\`bash
-# Initialize local Git repository
-git init
-
-# Add all files (ignoring venv and .joblib per .gitignore)
-git add .
-
-# Initial commit
-git commit -m "Initial commit: Fake News Detection System with Flask and ML"
-
-# Rename default branch to main
-git branch -M main
-
-# Link to your remote GitHub repository
-git remote add origin https://github.com/your-username/Fake-News-Detection.git
-
-# Push code to GitHub
-git push -u origin main
-\`\`\`
+### 20.1 Professional Project Presentation Standards
+1. **Clear System Overview:** What problem does it solve, and how does the ML pipeline work?
+2. **Architecture Diagrams:** High-level block diagrams illustrating the data journey.
+3. **Exclusion of Transient Files:** Keeping compiled binaries and temporary caches out of documentation.
+4. **Live Demonstrations:** Having ready-to-test examples for reviewers.
 `,
     keyTakeaways: [
-      'Never push venv/ or multi-gigabyte raw datasets to GitHub.',
-      'A professional README with badges makes your profile stand out for campus placements.'
+      'A clean presentation highlights your engineering mindset.',
+      'Well-structured documentation is a core requirement for university grading.'
     ]
   },
   {
     stepNumber: 21,
-    title: 'College Project Documentation Guide',
+    title: 'Academic Mini-Project Report Preparation',
     category: 'Academic Report & Viva',
-    summary: 'Complete chapter-by-chapter outline for your 2nd-year B.Tech CSE project report.',
+    summary: 'Standard university formatting, required chapters, certificates, and diagrams.',
     content: `
-### 21.1 Standard B.Tech Mini-Project Report Structure
-1. Cover Page & Title Page
-2. Certificate of Originality
-3. Acknowledgement
-4. Abstract & Keywords
-5. Table of Contents & List of Figures
-6. **Chapter 1: Introduction** (Background, Motivation, Problem Statement, Objectives)
-7. **Chapter 2: Literature Survey** (Related Work on Fake News and NLP)
-8. **Chapter 3: System Requirements & Architecture** (Hardware/Software, DFD, Workflow)
-9. **Chapter 4: Methodology & Algorithm Design** (Text Cleaning, TF-IDF, Classifiers)
-10. **Chapter 5: Implementation & Code Details** (Flask server, serialization)
-11. **Chapter 6: Results & Comparative Analysis** (Confusion Matrix, Metrics Table)
-12. **Chapter 7: Conclusion & Future Scope**
-13. References & IEEE Citations
+### 21.1 Core Chapters for University Submission
+- **Cover Page & Bonafide Certificate**
+- **Abstract & Keywords**
+- **Chapter 1: Introduction & Problem Statement**
+- **Chapter 2: Literature Survey & Related Work**
+- **Chapter 3: System Architecture & Requirements**
+- **Chapter 4: Methodology (NLP, TF-IDF, Classifiers)**
+- **Chapter 5: Implementation & Testing Results**
+- **Chapter 6: Conclusion, Limitations & Future Scope**
+- **References (IEEE Format)**
 `,
     keyTakeaways: [
-      'Follow your university guidelines for font sizes (14pt bold headings, 12pt Times New Roman body).',
-      'Include screenshots of the working user interface and terminal outputs.'
+      'Follow your university guidelines for structure, margins, and typography.',
+      'Use the Project Report tab in this workbench to generate a complete draft.'
     ]
   },
   {
     stepNumber: 22,
-    title: 'Viva Voce & Presentation Preparation',
+    title: 'Viva Voce & Oral Defense Preparation',
     category: 'Academic Report & Viva',
-    summary: '30 high-frequency viva exam questions with answers, 3-minute presentation script, and examiner tips.',
+    summary: 'Strategies for answering evaluator questions, delivering a 3-minute project summary, and defending results.',
     content: `
-### 22.1 How to Give a Flawless 3-Minute Project Presentation
-1. **Minute 1 (The Hook & Problem):** "Good morning respected examiners. Today I present our Fake News Detection System. Online misinformation spreads 6 times faster than authentic news, misleading citizens in health and politics. Our objective is to automate detection using NLP and machine learning."
-2. **Minute 2 (Technical Methodology):** "We collected a benchmark news corpus, applied regular-expression preprocessing and stop-word elimination, and converted articles into a 10,000-feature TF-IDF matrix using unigrams and bigrams. We trained and benchmarked four algorithms: Passive Aggressive Classifier, Logistic Regression, Linear SVM, and Naive Bayes. The Passive Aggressive Classifier achieved the highest F1-Score of 93.85%."
-3. **Minute 3 (Live Demo & Conclusion):** "We serialized the model using Joblib and built an interactive Flask web application that delivers predictions, confidence scores, and linguistic token breakdowns in under 50 milliseconds. Thank you, I am ready for questions."
+### 22.1 The 3-Minute Elevator Pitch Formula
+1. **Minute 1 - The Problem:** Misinformation spreads rapidly online, causing harm in health and politics. Manual fact-checking cannot scale, creating the need for automated NLP tools.
+2. **Minute 2 - The Methodology:** We cleaned a benchmark news corpus, extracted TF-IDF unigrams and bigrams, and trained 4 classifiers. The Passive Aggressive Classifier achieved the best balance with a 93.85% F1-score.
+3. **Minute 3 - The Demonstration & Defense:** We deployed the model via an interactive web interface with confidence scores and transparent linguistic markers.
 `,
     keyTakeaways: [
-      'Speak with confidence, articulate algorithm trade-offs, and acknowledge academic limitations.',
-      'Practice with the 30 interactive viva flashcards in this tab!'
+      'Speak with confidence, articulate algorithm trade-offs, and acknowledge academic boundaries.',
+      'Practice with the 30 interactive viva flashcards in this tab.'
     ]
   }
 ];

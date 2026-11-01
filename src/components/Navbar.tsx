@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShieldCheck, BarChart3, Code2, GraduationCap, FileText, Sparkles } from 'lucide-react';
 
-export type ActiveTab = 'detector' | 'lab' | 'code' | 'guide' | 'report';
+export type ActiveTab = 'detector' | 'lab' | 'architecture' | 'guide' | 'report';
 
 interface NavbarProps {
   activeTab: ActiveTab;
@@ -12,7 +12,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
   const navItems: { id: ActiveTab; label: string; icon: React.ReactNode; badge?: string }[] = [
     { id: 'detector', label: 'News Predictor', icon: <ShieldCheck className="w-4 h-4" /> },
     { id: 'lab', label: 'ML Training Lab', icon: <BarChart3 className="w-4 h-4" /> },
-    { id: 'code', label: 'Python Source Code', icon: <Code2 className="w-4 h-4" />, badge: '8 Files' },
+    { id: 'architecture', label: 'System Architecture', icon: <Code2 className="w-4 h-4" />, badge: '5 Layers' },
     { id: 'guide', label: '22-Step Guide & Viva', icon: <GraduationCap className="w-4 h-4" />, badge: '30 Q&A' },
     { id: 'report', label: 'Project Report', icon: <FileText className="w-4 h-4" /> },
   ];
