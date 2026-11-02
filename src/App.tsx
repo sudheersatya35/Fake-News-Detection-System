@@ -7,9 +7,9 @@ import React, { useState } from 'react';
 import { Navbar, ActiveTab } from './components/Navbar';
 import { NewsPredictor } from './components/NewsPredictor';
 import { ModelLab } from './components/ModelLab';
-import { ArchitectureView } from './components/ArchitectureView';
+import { PredictionHistory } from './components/PredictionHistory';
 import { CollegeGuide } from './components/CollegeGuide';
-import { ProjectReportModal } from './components/ProjectReportModal';
+import { ArchitectureView } from './components/ArchitectureView';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('detector');
@@ -23,11 +23,13 @@ export default function App() {
       <main className="flex-1">
         {activeTab === 'detector' && <NewsPredictor />}
         {activeTab === 'lab' && <ModelLab />}
-        {activeTab === 'architecture' && <ArchitectureView />}
-        {activeTab === 'guide' && <CollegeGuide />}
-        {activeTab === 'report' && (
-          <ProjectReportModal onBackToDetector={() => setActiveTab('detector')} />
+        {activeTab === 'history' && (
+          <PredictionHistory
+            onSelectForReanalysis={() => setActiveTab('detector')}
+          />
         )}
+        {activeTab === 'guide' && <CollegeGuide />}
+        {activeTab === 'architecture' && <ArchitectureView />}
       </main>
 
       {/* Global Academic Footer */}
@@ -41,33 +43,39 @@ export default function App() {
               Fake News Detection System
             </span>
             <span className="text-slate-600">•</span>
-            <span>B.Tech CSE 2nd-Year Mini-Project</span>
+            <span>AI-Powered News Credibility & Authenticity Analysis Platform</span>
           </div>
 
           <div className="flex items-center gap-4 text-slate-400">
             <button
+              onClick={() => setActiveTab('detector')}
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              News Predictor
+            </button>
+            <button
+              onClick={() => setActiveTab('lab')}
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              ML Training Lab
+            </button>
+            <button
+              onClick={() => setActiveTab('history')}
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              Prediction History
+            </button>
+            <button
               onClick={() => setActiveTab('guide')}
               className="hover:text-white transition-colors cursor-pointer"
             >
-              22-Step Guide
+              22-Step Guide & Viva
             </button>
             <button
               onClick={() => setActiveTab('architecture')}
               className="hover:text-white transition-colors cursor-pointer"
             >
               System Architecture
-            </button>
-            <button
-              onClick={() => setActiveTab('lab')}
-              className="hover:text-white transition-colors cursor-pointer"
-            >
-              ML Benchmark Lab
-            </button>
-            <button
-              onClick={() => setActiveTab('report')}
-              className="hover:text-white transition-colors cursor-pointer"
-            >
-              Project Report
             </button>
           </div>
         </div>

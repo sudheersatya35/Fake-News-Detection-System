@@ -1,6 +1,6 @@
 {
-  "name": "Fake News Detection System - ML & NLP Lab",
-  "description": "A complete Fake News Detection System using Python, NLP, and Machine Learning with an interactive detector, model evaluation lab, Flask code exporter, and college project guide.",
+  "name": "Fake News Detection System Using Python and Machine Learning",
+  "description": "AI-Powered News Credibility and Authenticity Analysis Platform.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
